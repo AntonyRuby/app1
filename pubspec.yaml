@@ -31,7 +31,6 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter:
     sdk: flutter
-  go_router: ^13.2.1
   uni_links: ^0.5.1
   url_launcher: ^6.2.5
 
