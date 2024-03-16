@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: CountrySelectionScreen(),
     );
   }
@@ -18,6 +19,8 @@ class MyApp extends StatelessWidget {
 
 class CountrySelectionScreen extends StatelessWidget {
   final List<String> countries = ['USA', 'Canada', 'UK', 'UAE'];
+  final String authToken =
+      'sample_auth_token'; // Simulated authentication token
 
   CountrySelectionScreen({super.key});
 
@@ -42,7 +45,8 @@ class CountrySelectionScreen extends StatelessWidget {
   }
 
   void _launchChildApp(String selectedCountry) async {
-    final String deepLink = 'myapp://childapp?country=$selectedCountry';
+    final String deepLink =
+        'myapp://childapp?country=$selectedCountry&token=$authToken';
     if (await canLaunchUrl(Uri.parse(deepLink))) {
       await launchUrl(Uri.parse(deepLink));
     } else {
