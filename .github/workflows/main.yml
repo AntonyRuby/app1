@@ -13,10 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.0.0'
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.8.1'
+          flutter-version: '3.19.4'
 
       - name: Install dependencies
         run: flutter pub get
@@ -31,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: debug-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
 
       - name: Upload Release APK as artifact
         uses: actions/upload-artifact@v2
