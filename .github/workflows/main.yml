@@ -3,7 +3,7 @@ name: Flutter Build and APK Artifacts
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
