@@ -1,4 +1,4 @@
-name: Flutter APK Release
+name: Flutter Build and APK Artifact
 
 on:
   push:
@@ -8,25 +8,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-    - name: Grant execute permission for flutter scripts
-      run: chmod +x ./flutter/bin/flutter
-    - name: Get flutter SDK
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.0.0'
-    - name: Run flutter pub get
-      run: ./flutter/bin/flutter pub get
-    - name: Build APK Release
-      run: ./flutter/bin/flutter build apk --release
-    - name: Upload APK to GitHub Release
-      uses: actions/upload-artifact@v2
-      with:
-        name: app-release
-        path: build/app/outputs/flutter/release/app-release.apk
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '12.x'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.4'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk
+
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/release-apk.apk
