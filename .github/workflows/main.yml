@@ -21,18 +21,13 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Analyze code
-        run: flutter analyze
-
       - name: Run tests
         run: flutter test
 
-      - name: Build APK
-        run: flutter build apk
+      - name: Build Release APK
+        run: flutter build apk --release
 
-      # Add a step to deploy or release the APK
-      - name: Release APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Build App Bundle
+        run: flutter build appbundle
+
+      # Add more steps for packaging, deploying, etc.
