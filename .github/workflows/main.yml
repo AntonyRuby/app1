@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Flutter APK Release
 
 on:
   push:
@@ -8,26 +8,25 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '2.x' # Specify the Flutter version you want to use
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Run tests
-        run: flutter test
-
-      - name: Build Release APK
-        run: flutter build apk --release
-
-      - name: Build App Bundle
-        run: flutter build appbundle
-
-      # Add more steps for packaging, deploying, etc.
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - name: Grant execute permission for flutter scripts
+      run: chmod +x ./flutter/bin/flutter
+    - name: Get flutter SDK
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.0.0'
+    - name: Run flutter pub get
+      run: ./flutter/bin/flutter pub get
+    - name: Build APK Release
+      run: ./flutter/bin/flutter build apk --release
+    - name: Upload APK to GitHub Release
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-release
+        path: build/app/outputs/flutter/release/app-release.apk
